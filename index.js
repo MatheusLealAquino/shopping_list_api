@@ -1,5 +1,6 @@
 const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
+require('dotenv').config();
 
 const start = async () => {
   const server = Hapi.server({
@@ -10,7 +11,7 @@ const start = async () => {
   await server.register(require('@hapi/jwt'));
 
   server.auth.strategy('userAuth', 'jwt', {
-    keys: 'some_shared_secret',
+    keys: process.env.JWT_SECRET,
     verify: {
       aud: false,
       iss: false,
@@ -23,7 +24,7 @@ const start = async () => {
     validate: async (artifacts, request, h) => {
       return {
         isValid: true,
-        credentials: { user: artifacts.decoded.payload.user }
+        credentials: { id: artifacts.decoded.payload.id }
       };
     }
   });

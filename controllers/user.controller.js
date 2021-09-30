@@ -1,4 +1,6 @@
-async function getUsers() {
+const jwt = require('jsonwebtoken');
+
+async function getUsers(request, h) {
   return h.response([{
     name: 'Zezinho'
   }]).code(200);
@@ -7,7 +9,10 @@ async function getUsers() {
 async function getUserById(request, h) {
   const { id } = request.params;
 
-  return h.response(`Ola ${id}`).code(200);
+  return h.response({
+    message: `Ola ${id}`,
+    token: jwt.sign({ id }, process.env.JWT_SECRET)
+  }).code(200);
 }
 
 module.exports = {
