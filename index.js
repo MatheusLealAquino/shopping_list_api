@@ -18,13 +18,38 @@ const start = async () => {
       sub: false,
       nbf: true,
       exp: true,
-      maxAgeSec: 14400, // 4 hours
+      maxAgeSec: 0,
       timeSkewSec: 15
     },
     validate: async (artifacts, request, h) => {
       return {
         isValid: true,
-        credentials: { id: artifacts.decoded.payload.id }
+        credentials: { 
+          id: artifacts.decoded.payload.id,
+          username: artifacts.decoded.payload.username,
+        }
+      };
+    }
+  });
+
+  server.auth.strategy('adminAuth', 'jwt', {
+    keys: process.env.JWT_SECRET_ADMIN,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      nbf: true,
+      exp: true,
+      maxAgeSec: 0,
+      timeSkewSec: 15
+    },
+    validate: async (artifacts, request, h) => {
+      return {
+        isValid: true,
+        credentials: { 
+          id: artifacts.decoded.payload.id,
+          username: artifacts.decoded.payload.username,
+        }
       };
     }
   });

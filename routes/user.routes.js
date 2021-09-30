@@ -1,9 +1,13 @@
 const { 
-  getUsers,
-  getUserById,
+  login,
+  getAll,
+  getById,
+  adminLogin,
 } = require('../controllers/user.controller');
 
 module.exports = [
-  { method: 'GET', path: '/users', handler: getUsers, config: { auth: 'userAuth' } },
-  { method: 'GET', path: '/users/{id}', handler: getUserById }
+  { method: 'POST', path: '/users/login', handler: login },
+  { method: 'POST', path: '/users/admin/login', handler: adminLogin },
+  { method: 'GET', path: '/users', handler: getAll, config: { auth: 'adminAuth' } },
+  { method: 'GET', path: '/users/{id}', handler: getById, config: { auth: 'userAuth' } }
 ];
