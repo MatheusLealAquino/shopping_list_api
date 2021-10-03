@@ -1,14 +1,15 @@
 const Hapi = require('@hapi/hapi');
+const hapiJwt = require('@hapi/jwt');
 const routes = require('./routes');
 require('dotenv').config();
 
 const start = async () => {
   const server = Hapi.server({
     port: 3000,
-    host: 'localhost'
+    host: 'localhost',
   });
 
-  await server.register(require('@hapi/jwt'));
+  await server.register(hapiJwt);
 
   server.auth.strategy('userAuth', 'jwt', {
     keys: process.env.JWT_SECRET,
@@ -19,17 +20,16 @@ const start = async () => {
       nbf: true,
       exp: true,
       maxAgeSec: 0,
-      timeSkewSec: 15
+      timeSkewSec: 15,
     },
-    validate: async (artifacts, request, h) => {
-      return {
-        isValid: true,
-        credentials: { 
-          id: artifacts.decoded.payload.id,
-          username: artifacts.decoded.payload.username,
-        }
-      };
-    }
+    // eslint-disable-next-line no-unused-vars
+    validate: async (artifacts, request, h) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id,
+        username: artifacts.decoded.payload.username,
+      },
+    }),
   });
 
   server.auth.strategy('adminAuth', 'jwt', {
@@ -41,17 +41,16 @@ const start = async () => {
       nbf: true,
       exp: true,
       maxAgeSec: 0,
-      timeSkewSec: 15
+      timeSkewSec: 15,
     },
-    validate: async (artifacts, request, h) => {
-      return {
-        isValid: true,
-        credentials: { 
-          id: artifacts.decoded.payload.id,
-          username: artifacts.decoded.payload.username,
-        }
-      };
-    }
+    // eslint-disable-next-line no-unused-vars
+    validate: async (artifacts, request, h) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id,
+        username: artifacts.decoded.payload.username,
+      },
+    }),
   });
 
   server.route(routes);
@@ -59,10 +58,10 @@ const start = async () => {
   server.start().then(() => {
     console.log('Server running on %s', server.info.uri);
   });
-}
+};
 
 process.on('unhandledRejection', (err) => {
-  console.log(err);
+  console.error(err);
   process.exit(1);
 });
 
