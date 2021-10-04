@@ -1,12 +1,16 @@
-const Hapi = require('@hapi/hapi');
-const hapiJwt = require('@hapi/jwt');
-const routes = require('./routes');
+import * as Hapi from '@hapi/hapi';
+import * as hapiJwt from '@hapi/jwt';
+import routes from './routes';
+
 require('dotenv').config();
 
 const start = async () => {
   const server = Hapi.server({
     port: 3000,
     host: 'localhost',
+    routes: {
+      cors: true,
+    },
   });
 
   await server.register(hapiJwt);
@@ -23,7 +27,7 @@ const start = async () => {
       timeSkewSec: 15,
     },
     // eslint-disable-next-line no-unused-vars
-    validate: async (artifacts, request, h) => ({
+    validate: async (artifacts: any, request: any, h: any) => ({
       isValid: true,
       credentials: {
         id: artifacts.decoded.payload.id,
@@ -44,7 +48,7 @@ const start = async () => {
       timeSkewSec: 15,
     },
     // eslint-disable-next-line no-unused-vars
-    validate: async (artifacts, request, h) => ({
+    validate: async (artifacts: any, request: any, h: any) => ({
       isValid: true,
       credentials: {
         id: artifacts.decoded.payload.id,

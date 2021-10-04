@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-async function login(request, h) {
+async function login(request: any, h: any) {
   const { username, password } = request.payload;
 
   return h.response({
@@ -10,12 +10,12 @@ async function login(request, h) {
         username,
         password,
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET as string,
     ),
   }).code(200);
 }
 
-async function adminLogin(request, h) {
+async function adminLogin(request: any, h: any) {
   const { username, password } = request.payload;
 
   return h.response({
@@ -25,18 +25,18 @@ async function adminLogin(request, h) {
         username,
         password,
       },
-      process.env.JWT_SECRET_ADMIN,
+      process.env.JWT_SECRET_ADMIN as string,
     ),
   }).code(200);
 }
 
-async function getAll(request, h) {
+async function getAll(request: any, h: any) {
   return h.response([{
     name: 'Zezinho',
   }]).code(200);
 }
 
-async function getById(request, h) {
+async function getById(request: any, h: any) {
   const { id } = request.params;
 
   if (request.auth.credentials.id !== id) {
@@ -50,7 +50,7 @@ async function getById(request, h) {
   }).code(200);
 }
 
-module.exports = {
+export default {
   login,
   adminLogin,
   getAll,
