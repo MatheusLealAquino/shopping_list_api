@@ -1,5 +1,5 @@
-import user from './user.routes';
+import userRoutes from '../infrastructure/user/webserver/routes';
 
 export default [
-  ...user,
+  ...userRoutes,
 ];

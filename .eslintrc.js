@@ -32,5 +32,6 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };
