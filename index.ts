@@ -2,12 +2,9 @@ import * as Hapi from '@hapi/hapi';
 import * as hapiJwt from '@hapi/jwt';
 import routes from './routes';
 
-require('dotenv').config();
-
 const start = async () => {
   const server = Hapi.server({
     port: 3000,
-    host: 'localhost',
     routes: {
       cors: true,
     },
@@ -31,7 +28,7 @@ const start = async () => {
       isValid: true,
       credentials: {
         id: artifacts.decoded.payload.id,
-        username: artifacts.decoded.payload.username,
+        email: artifacts.decoded.payload.email,
       },
     }),
   });
@@ -52,7 +49,7 @@ const start = async () => {
       isValid: true,
       credentials: {
         id: artifacts.decoded.payload.id,
-        username: artifacts.decoded.payload.username,
+        email: artifacts.decoded.payload.email,
       },
     }),
   });

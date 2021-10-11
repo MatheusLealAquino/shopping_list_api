@@ -1,3 +1,5 @@
+import { ObjectId } from 'bson';
+
 const makeUsersDb = ({ makeDb }) => {
   async function insert({
     ...userInfo
@@ -10,12 +12,37 @@ const makeUsersDb = ({ makeDb }) => {
         ...userInfo,
       });
 
-    const { ...insertedInfo } = result.ops[0];
-    return { ...insertedInfo };
+    return { ...userInfo, _id: result.insertedId };
+  }
+
+  async function getByEmail({
+    email,
+  }) {
+    const db = await makeDb();
+
+    return db
+      .collection('users')
+      .findOne({
+        email,
+      });
+  }
+
+  async function getById({
+    _id,
+  }) {
+    const db = await makeDb();
+
+    return db
+      .collection('users')
+      .findOne({
+        _id: new ObjectId(_id.toString()),
+      });
   }
 
   return Object.freeze({
     insert,
+    getByEmail,
+    getById,
   });
 };
 

@@ -1,8 +1,5 @@
 import buildMakeUser from './user';
-import validator from '../../infrastructure/user/validator';
 
-const makeUser = buildMakeUser({
-  validator,
-});
+const makeUser = buildMakeUser();
 
 export default makeUser;

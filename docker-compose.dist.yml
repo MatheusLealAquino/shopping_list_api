@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  api:
+    container_name: shopping_list_api
+    build: .
+    ports:
+      - '4000:3000'
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment: 
+      - MONGO_URL=
+      - DATABASE_NAME=
+      - NODE_ENV=
+      - JWT_SECRET=
+      - JWT_SECRET_ADMIN=
+    links:
+      - mongo
+  mongo:
+    container_name: shopping_list_mongo
+    image: mongo:5.0.2
+    volumes: 
+      - mongodata:/data/db
+    ports: 
+      - '27018:27017'
+
+volumes: 
+  mongodata:
