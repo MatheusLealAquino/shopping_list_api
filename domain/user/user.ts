@@ -3,7 +3,8 @@ interface IUser {
   name?: string;
   email?: string;
   password?: string;
-  isActive?: string;
+  isActive?: boolean;
+  isAdmin?: boolean;
 }
 
 const buildMakeUser = () => ({
@@ -11,11 +12,15 @@ const buildMakeUser = () => ({
   email,
   password,
   name,
+  isActive = true,
+  isAdmin = false,
 } : IUser) => Object.freeze({
   getId: () => _id,
   getName: () => name,
   getEmail: () => email,
   getPassword: () => password,
+  getIsActive: () => isActive,
+  getisAdmin: () => isAdmin,
 });
 
 export default buildMakeUser;

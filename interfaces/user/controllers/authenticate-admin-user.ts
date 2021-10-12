@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const makeAuthenticateUser = ({ getUserByEmailPassword }) => async (request: any, h: any) => {
+const makeAuthenticateAdminUser = ({ getUserByEmailPassword }) => async (request: any, h: any) => {
   try {
     const { email, password } = request.payload;
     if (!email) {
@@ -20,7 +20,7 @@ const makeAuthenticateUser = ({ getUserByEmailPassword }) => async (request: any
       password,
     });
 
-    if (!user) {
+    if (!user || !user.isAdmin) {
       return h.response({
         error: 'user not found',
       }).code(404);
@@ -31,7 +31,8 @@ const makeAuthenticateUser = ({ getUserByEmailPassword }) => async (request: any
         _id: user._id,
         email: user.email,
         name: user.name,
-      }, process.env.JWT_SECRET as string),
+        isAdmin: user.isAdmin,
+      }, process.env.JWT_SECRET_ADMIN as string),
     }).code(200);
   } catch (e) {
     const error = e as Error;
@@ -48,4 +49,4 @@ const makeAuthenticateUser = ({ getUserByEmailPassword }) => async (request: any
   }
 };
 
-export default makeAuthenticateUser;
+export default makeAuthenticateAdminUser;

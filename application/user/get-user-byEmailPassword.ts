@@ -12,7 +12,7 @@ const makeGetUserByEmailPassword = ({ usersDb }) => async (userInfo) => {
   const password = user.getPassword() || '';
 
   return (await bcrypt.compare(password, foundUser.password))
-    ? user : null;
+    ? foundUser : null;
 };
 
 export default makeGetUserByEmailPassword;

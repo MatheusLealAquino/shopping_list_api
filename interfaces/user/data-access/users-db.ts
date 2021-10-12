@@ -39,10 +39,19 @@ const makeUsersDb = ({ makeDb }) => {
       });
   }
 
+  async function getUsers() {
+    const db = await makeDb();
+
+    return db
+      .collection('users')
+      .find().toArray();
+  }
+
   return Object.freeze({
     insert,
     getByEmail,
     getById,
+    getUsers,
   });
 };
 

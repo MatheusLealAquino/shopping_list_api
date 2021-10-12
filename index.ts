@@ -27,7 +27,7 @@ const start = async () => {
     validate: async (artifacts: any, request: any, h: any) => ({
       isValid: true,
       credentials: {
-        id: artifacts.decoded.payload.id,
+        _id: artifacts.decoded.payload._id,
         email: artifacts.decoded.payload.email,
       },
     }),
@@ -48,7 +48,7 @@ const start = async () => {
     validate: async (artifacts: any, request: any, h: any) => ({
       isValid: true,
       credentials: {
-        id: artifacts.decoded.payload.id,
+        _id: artifacts.decoded.payload._id,
         email: artifacts.decoded.payload.email,
       },
     }),
