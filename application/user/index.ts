@@ -15,12 +15,12 @@ const addAdminUser = makeAddAdminUser({ usersDb });
 const getUsers = makeGetUsers({ usersDb });
 
 const userService = Object.freeze({
-  addUser,
-  getUserById,
-  getUserByEmail,
-  getUserByEmailPassword,
-  addAdminUser,
-  getUsers,
+	addUser,
+	getUserById,
+	getUserByEmail,
+	getUserByEmailPassword,
+	addAdminUser,
+	getUsers,
 });
 
 export default userService;

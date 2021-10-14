@@ -1,0 +1,4 @@
+.ebextensions/
+test/**/*.js
+dist
+/*.js

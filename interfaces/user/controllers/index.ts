@@ -8,36 +8,36 @@ import makeGetUsers from './get-users';
 import makeAuthenticateAdminUser from './authenticate-admin-user';
 
 const postUser = makePostUser({
-  addUser: userService.addUser,
+	addUser: userService.addUser,
 });
 
 const postAdminUser = makePostAdminUser({
-  addAdminUser: userService.addAdminUser,
+	addAdminUser: userService.addAdminUser,
 });
 
 const authenticateUser = makeAuthenticateUser({
-  getUserByEmailPassword: userService.getUserByEmailPassword,
+	getUserByEmailPassword: userService.getUserByEmailPassword,
 });
 
 const authenticateAdminUser = makeAuthenticateAdminUser({
-  getUserByEmailPassword: userService.getUserByEmailPassword,
+	getUserByEmailPassword: userService.getUserByEmailPassword,
 });
 
 const getUserById = makeGetUserById({
-  getUserById: userService.getUserById,
+	getUserById: userService.getUserById,
 });
 
 const getUsers = makeGetUsers({
-  getUsers: userService.getUsers,
+	getUsers: userService.getUsers,
 });
 
 const userController = Object.freeze({
-  postUser,
-  authenticateUser,
-  authenticateAdminUser,
-  getUserById,
-  postAdminUser,
-  getUsers,
+	postUser,
+	authenticateUser,
+	authenticateAdminUser,
+	getUserById,
+	postAdminUser,
+	getUsers,
 });
 
 export default userController;

@@ -1,8 +1,8 @@
 import makeUsersDb from './users-db';
-import makeDb from '../../../infrastructure/user/db';
+import userDb from '../../../infrastructure/user/db';
 
 const usersDb = makeUsersDb({
-  makeDb,
+	makeDb: userDb.makeDb,
 });
 
 export default usersDb;

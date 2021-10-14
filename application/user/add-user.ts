@@ -1,21 +1,25 @@
 import * as bcrypt from 'bcrypt';
 import makeUser from '../../domain/user';
+import IUser from '../../domain/user/interface';
 
-const makeAddUser = ({ usersDb }) => async (userInfo) => {
-  const user = makeUser(userInfo);
+const makeAddUser = ({ usersDb }) => async (userInfo: IUser) => {
+	const user = makeUser(userInfo);
 
-  const foundUser = await usersDb.getByEmail({
-    email: user.getEmail(),
-  });
-  if (foundUser) throw new Error('User already exists');
+	if (!user.getPassword()) throw new Error('Necessary to receive password');
+	if (!user.getEmail()) throw new Error('Necessary to receive email');
 
-  const hashedPassword = await bcrypt.hash(user.getPassword() as string, 10);
+	const foundUser = await usersDb.getByEmail({
+		email: user.getEmail(),
+	});
+	if (foundUser) throw new Error('User already exists');
 
-  return usersDb.insert({
-    email: user.getEmail(),
-    password: hashedPassword,
-    name: user.getName(),
-  });
+	const hashedPassword = await bcrypt.hash(user.getPassword() as string, 10);
+
+	return usersDb.insert({
+		email: user.getEmail(),
+		password: hashedPassword,
+		name: user.getName(),
+	});
 };
 
 export default makeAddUser;
