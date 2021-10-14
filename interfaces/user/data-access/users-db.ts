@@ -62,7 +62,7 @@ const makeUsersDb = ({ makeDb }) => {
 
 			return db
 				.collection('users')
-				.remove();
+				.deleteMany({});
 		}
 
 		return Promise.resolve();
