@@ -10,6 +10,7 @@ const makeUsersDb = ({ makeDb }) => {
 			.collection('users')
 			.insertOne({
 				...userInfo,
+				createdAt: new Date(),
 			});
 
 		return { ...userInfo, _id: result.insertedId };
