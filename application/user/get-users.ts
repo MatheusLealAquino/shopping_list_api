@@ -1,12 +1,14 @@
-const makeGetUserByEmail = ({ usersDb }) => async () => {
+const makeGetUsers = ({ usersDb }) => async () => {
 	const users = await usersDb.getUsers();
+
 	return users.map((el) => ({
-		id: el._id,
+		_id: el._id,
 		email: el.email,
 		name: el.name,
-		isActive: el.active,
+		isActive: el.isActive,
 		isAdmin: el.isAdmin,
+		createdAt: el.createdAt,
 	}));
 };
 
-export default makeGetUserByEmail;
+export default makeGetUsers;

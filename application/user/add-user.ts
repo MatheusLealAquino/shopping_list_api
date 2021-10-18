@@ -19,6 +19,8 @@ const makeAddUser = ({ usersDb }) => async (userInfo: IUser) => {
 		email: user.getEmail(),
 		password: hashedPassword,
 		name: user.getName(),
+		isActive: user.getIsActive(),
+		isAdmin: user.getIsAdmin(),
 	});
 };
 

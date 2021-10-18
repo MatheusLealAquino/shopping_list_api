@@ -7,7 +7,7 @@ const makeGetUserByEmailPassword = ({ usersDb }) => async (userInfo) => {
 	const foundUser = await usersDb.getByEmail({
 		email: user.getEmail(),
 	});
-	if (!foundUser) throw new Error('User not found');
+	if (!foundUser) return null;
 
 	const password = user.getPassword() || '';
 

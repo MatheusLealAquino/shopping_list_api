@@ -13,7 +13,7 @@ const buildMakeUser = () => ({
 	getEmail: () => email,
 	getPassword: () => password,
 	getIsActive: () => isActive,
-	getisAdmin: () => isAdmin,
+	getIsAdmin: () => isAdmin,
 });
 
 export default buildMakeUser;
