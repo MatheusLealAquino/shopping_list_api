@@ -1,6 +1,6 @@
-import makeAddAdminUser from '../add-admin-user';
-import infrastructureUserDb from '../../../infrastructure/user/db';
-import usersDb from '../../../interfaces/user/data-access';
+import makeAddAdminUser from './add-admin-user';
+import infrastructureUserDb from '../../infrastructure/user/db';
+import usersDb from '../../interfaces/user/data-access';
 
 beforeEach(async () => {
 	await usersDb.clearCollection();
