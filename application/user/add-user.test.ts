@@ -1,6 +1,6 @@
-import makeAddUser from '../add-user';
-import infrastructureUserDb from '../../../infrastructure/user/db';
-import usersDb from '../../../interfaces/user/data-access';
+import makeAddUser from './add-user';
+import infrastructureUserDb from '../../infrastructure/user/db';
+import usersDb from '../../interfaces/user/data-access';
 
 beforeEach(async () => {
 	await usersDb.clearCollection();

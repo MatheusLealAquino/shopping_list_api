@@ -1,9 +1,9 @@
 import { ObjectId } from 'bson';
-import infrastructureUserDb from '../../../infrastructure/user/db';
-import usersDb from '../../../interfaces/user/data-access';
+import infrastructureUserDb from '../../infrastructure/user/db';
+import usersDb from '../../interfaces/user/data-access';
 
-import makeAddUser from '../add-user';
-import makeGetUserById from '../get-user-byId';
+import makeAddUser from './add-user';
+import makeGetUserById from './get-user-byId';
 
 beforeEach(async () => {
 	await usersDb.clearCollection();
