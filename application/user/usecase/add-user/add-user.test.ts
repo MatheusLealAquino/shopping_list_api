@@ -1,6 +1,6 @@
-import makeAddAdminUser from './add-admin-user';
-import infrastructureUserDb from '../../infrastructure/user/db';
-import usersDb from '../../interfaces/user/data-access';
+import makeAddUser from './add-user';
+import infrastructureUserDb from '../../../../infrastructure/user/db';
+import usersDb from '../../../../interfaces/user/data-access';
 
 beforeEach(async () => {
 	await usersDb.clearCollection();
@@ -10,13 +10,13 @@ afterAll(async () => {
 	await infrastructureUserDb.closeDb();
 });
 
-describe('makeAddAdminUser', () => {
+describe('makeAddUser', () => {
 	test('when receive user data then insert on database', async () => {
-		const addAdminUser = makeAddAdminUser({
+		const addUser = makeAddUser({
 			usersDb,
 		});
 
-		await addAdminUser({
+		await addUser({
 			email: 'matheus@gmail.com',
 			name: 'Matheus Leal',
 			password: '12356',
@@ -26,12 +26,12 @@ describe('makeAddAdminUser', () => {
 	});
 
 	test('when dont receive password then throw error', async () => {
-		try {
-			const addAdminUser = makeAddAdminUser({
-				usersDb,
-			});
+		const addUser = makeAddUser({
+			usersDb,
+		});
 
-			await addAdminUser({
+		try {
+			await addUser({
 				email: 'matheus@gmail.com',
 				name: 'Matheus Leal',
 				password: '',
@@ -43,12 +43,12 @@ describe('makeAddAdminUser', () => {
 	});
 
 	test('when email is empty then throw error', async () => {
-		const addAdminUser = makeAddAdminUser({
+		const addUser = makeAddUser({
 			usersDb,
 		});
 
 		try {
-			await addAdminUser({
+			await addUser({
 				email: '',
 				name: 'Matheus Leal',
 				password: '123456',

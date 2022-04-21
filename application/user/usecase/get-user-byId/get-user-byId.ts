@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson';
-import makeUser from '../../domain/user';
+import makeUser from '../../../../domain/user';
 
 const makeGetUserById = ({ usersDb }) => (userInfo: { _id: ObjectId }) => {
 	const user = makeUser(userInfo);

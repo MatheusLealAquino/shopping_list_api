@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
-import makeUser from '../../domain/user';
-import IUser from '../../domain/user/interface';
+import makeUser from '../../../../domain/user';
+import IUser from '../../../../domain/user/interface';
 
-const makeAddUser = ({ usersDb }) => async (userInfo: IUser) => {
+const makeAddAdminUser = ({ usersDb }) => async (userInfo: IUser) => {
 	const user = makeUser(userInfo);
 
 	if (!user.getPassword()) throw new Error('Necessary to receive password');
@@ -10,6 +10,7 @@ const makeAddUser = ({ usersDb }) => async (userInfo: IUser) => {
 
 	const foundUser = await usersDb.getByEmail({
 		email: user.getEmail(),
+		isAdmin: true,
 	});
 	if (foundUser) throw new Error('User already exists');
 
@@ -20,8 +21,8 @@ const makeAddUser = ({ usersDb }) => async (userInfo: IUser) => {
 		password: hashedPassword,
 		name: user.getName(),
 		isActive: user.getIsActive(),
-		isAdmin: user.getIsAdmin(),
+		isAdmin: true,
 	});
 };
 
-export default makeAddUser;
+export default makeAddAdminUser;

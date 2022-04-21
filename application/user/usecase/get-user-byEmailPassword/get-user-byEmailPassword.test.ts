@@ -1,7 +1,7 @@
-import infrastructureUserDb from '../../infrastructure/user/db';
-import usersDb from '../../interfaces/user/data-access';
+import infrastructureUserDb from '../../../../infrastructure/user/db';
+import usersDb from '../../../../interfaces/user/data-access';
 
-import makeAddUser from './add-user';
+import makeAddUser from '../add-user/add-user';
 import makeGetUserByEmailPassword from './get-user-byEmailPassword';
 
 beforeEach(async () => {

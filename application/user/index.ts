@@ -1,11 +1,12 @@
 import usersDb from '../../interfaces/user/data-access';
 
-import makeAddUser from './add-user';
-import makeGetUserById from './get-user-byId';
-import makeGetUserByEmail from './get-user-byEmail';
-import makeGetUserByEmailPassword from './get-user-byEmailPassword';
-import makeAddAdminUser from './add-admin-user';
-import makeGetUsers from './get-users';
+import makeAddUser from './usecase/add-user/add-user';
+import makeGetUserById from './usecase/get-user-byId/get-user-byId';
+import makeGetUserByEmail from './usecase/get-user-ByEmail/get-user-byEmail';
+import makeGetUserByEmailPassword from
+	'./usecase/get-user-byEmailPassword/get-user-byEmailPassword';
+import makeAddAdminUser from './usecase/add-admin-user/add-admin-user';
+import makeGetUsers from './usecase/get-users/get-users';
 
 const addUser = makeAddUser({ usersDb });
 const getUserById = makeGetUserById({ usersDb });
