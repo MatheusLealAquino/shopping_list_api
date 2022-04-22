@@ -1,5 +1,5 @@
-const makeGetUsers = ({ usersDb }) => async () => {
-	const users = await usersDb.getUsers();
+const makeGetUsers = ({ userRepository }) => async () => {
+	const users = await userRepository.getUsers();
 
 	return users.map((el) => ({
 		_id: el._id,

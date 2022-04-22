@@ -1,43 +1,73 @@
-import userService from '../../../application/user';
+import userDataAccess from '../data-access';
+
+import addUser from '../../../application/usecase/add-user/add-user';
+import addAdminUser from '../../../application/usecase/add-admin-user/add-admin-user';
+import getUserByEmailPassword from
+	'../../../application/usecase/get-user-byEmailPassword/get-user-byEmailPassword';
+import getUserById from '../../../application/usecase/get-user-byId/get-user-byId';
+import getUsers from '../../../application/usecase/get-users/get-users';
 
 import makeAuthenticateUser from './authenticate-user';
 import makeGetUserById from './getById-user';
 import makePostUser from './post-user';
 import makePostAdminUser from './post-admin-user';
-import makeGetUsers from './get-users';
 import makeAuthenticateAdminUser from './authenticate-admin-user';
+import makeGetUsers from './get-users';
 
-const postUser = makePostUser({
-	addUser: userService.addUser,
-});
+const postUser = (userRepository) => (makePostUser({
+	addUser: addUser({
+		userRepository,
+	}),
+}));
 
-const postAdminUser = makePostAdminUser({
-	addAdminUser: userService.addAdminUser,
-});
+const postAdminUser = (userRepository) => (makePostAdminUser({
+	addAdminUser: addAdminUser({
+		userRepository,
+	}),
+}));
 
-const authenticateUser = makeAuthenticateUser({
-	getUserByEmailPassword: userService.getUserByEmailPassword,
-});
+const authenticateUser = (userRepository) => (makeAuthenticateUser({
+	getUserByEmailPassword: getUserByEmailPassword({
+		userRepository,
+	}),
+}));
 
-const authenticateAdminUser = makeAuthenticateAdminUser({
-	getUserByEmailPassword: userService.getUserByEmailPassword,
-});
+const authenticateAdminUser = (userRepository) => (makeAuthenticateAdminUser({
+	getUserByEmailPassword: getUserByEmailPassword({
+		userRepository,
+	}),
+}));
 
-const getUserById = makeGetUserById({
-	getUserById: userService.getUserById,
-});
+const findUserById = (userRepository) => (makeGetUserById({
+	getUserById: getUserById({
+		userRepository,
+	}),
+}));
 
-const getUsers = makeGetUsers({
-	getUsers: userService.getUsers,
-});
+const getAllUsers = (userRepository) => (makeGetUsers({
+	getUsers: getUsers({
+		userRepository,
+	}),
+}));
 
-const userController = Object.freeze({
-	postUser,
-	authenticateUser,
-	authenticateAdminUser,
-	getUserById,
-	postAdminUser,
-	getUsers,
-});
+const userController = (repositoryFactory) => {
+	const userRepository = userDataAccess.userMongo(repositoryFactory);
+
+	const postUserMounted = postUser(userRepository);
+	const authenticateUserMounted = authenticateUser(userRepository);
+	const authenticateAdminUserMounted = authenticateAdminUser(userRepository);
+	const findUserByIdMounted = findUserById(userRepository);
+	const postAdminUserMounted = postAdminUser(userRepository);
+	const getAllUsersMounted = getAllUsers(userRepository);
+
+	return Object.freeze({
+		postUser: postUserMounted,
+		authenticateUser: authenticateUserMounted,
+		authenticateAdminUser: authenticateAdminUserMounted,
+		findUserById: findUserByIdMounted,
+		postAdminUser: postAdminUserMounted,
+		getAllUsers: getAllUsersMounted,
+	});
+};
 
 export default userController;

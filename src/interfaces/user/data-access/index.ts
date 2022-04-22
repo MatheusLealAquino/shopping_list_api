@@ -1,8 +1,9 @@
-import makeUsersDb from './users-db';
-import userDb from '../../../infrastructure/user/db';
+import makeUserMongo from './user-mongo';
 
-const usersDb = makeUsersDb({
-	makeDb: userDb.makeDb,
+const userMongo = (connection) => makeUserMongo({
+	db: connection,
 });
 
-export default usersDb;
+export default {
+	userMongo,
+};

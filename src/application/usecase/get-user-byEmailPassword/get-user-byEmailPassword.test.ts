@@ -1,21 +1,29 @@
-import infrastructureUserDb from '../../../../infrastructure/user/db';
-import usersDb from '../../../../interfaces/user/data-access';
+import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
+import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
 
 import makeAddUser from '../add-user/add-user';
 import makeGetUserByEmailPassword from './get-user-byEmailPassword';
 
+let userRepository;
+beforeAll(async () => {
+	const connection = await mongoConnectionAdapter.makeDb();
+	userRepository = makeUserMongo({
+		db: connection,
+	});
+});
+
 beforeEach(async () => {
-	await usersDb.clearCollection();
+	await userRepository.clearCollection();
 });
 
 afterAll(async () => {
-	await infrastructureUserDb.closeDb();
+	await mongoConnectionAdapter.closeDb();
 });
 
 describe('makeGetUserByEmailPassword', () => {
 	test('when user already created and password match then return user', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addUser({
@@ -25,7 +33,7 @@ describe('makeGetUserByEmailPassword', () => {
 		});
 
 		const getUser = makeGetUserByEmailPassword({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUser = await getUser({
@@ -40,7 +48,7 @@ describe('makeGetUserByEmailPassword', () => {
 
 	test('when user already created and password dont match then return null', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addUser({
@@ -50,7 +58,7 @@ describe('makeGetUserByEmailPassword', () => {
 		});
 
 		const getUser = makeGetUserByEmailPassword({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUser = await getUser({
@@ -63,7 +71,7 @@ describe('makeGetUserByEmailPassword', () => {
 
 	test('when dont find user then return null', async () => {
 		const getUser = makeGetUserByEmailPassword({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUser = await getUser({

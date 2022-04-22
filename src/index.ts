@@ -1,5 +1,8 @@
 import * as Hapi from '@hapi/hapi';
 import * as hapiJwt from '@hapi/jwt';
+
+import mongoConnectionAdapter from './infrastructure/db/mongoConnectionAdapter';
+
 import routes from './routes';
 
 const start = async () => {
@@ -54,7 +57,8 @@ const start = async () => {
 		}),
 	});
 
-	server.route(routes);
+	const connection = await mongoConnectionAdapter.makeDb();
+	server.route(routes(connection));
 
 	server.start().then(() => {
 		console.log('Server running on %s', server.info.uri);

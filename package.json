@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "npx ts-node-dev --transpile-only index.ts",
+    "serve": "npx ts-node-dev --transpile-only src/index.ts",
     "build": "npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest . --runInBand"
   },
   "author": "",
   "license": "ISC",

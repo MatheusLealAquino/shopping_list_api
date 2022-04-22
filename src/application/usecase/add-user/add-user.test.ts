@@ -1,19 +1,28 @@
+import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
+
 import makeAddUser from './add-user';
-import infrastructureUserDb from '../../../../infrastructure/user/db';
-import usersDb from '../../../../interfaces/user/data-access';
+import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
+
+let userRepository;
+beforeAll(async () => {
+	const connection = await mongoConnectionAdapter.makeDb();
+	userRepository = makeUserMongo({
+		db: connection,
+	});
+});
 
 beforeEach(async () => {
-	await usersDb.clearCollection();
+	await userRepository.clearCollection();
 });
 
 afterAll(async () => {
-	await infrastructureUserDb.closeDb();
+	await mongoConnectionAdapter.closeDb();
 });
 
 describe('makeAddUser', () => {
 	test('when receive user data then insert on database', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addUser({
@@ -22,12 +31,12 @@ describe('makeAddUser', () => {
 			password: '12356',
 		});
 
-		expect(await usersDb.countUsers()).toBe(1);
+		expect(await userRepository.countUsers()).toBe(1);
 	});
 
 	test('when dont receive password then throw error', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		try {
@@ -44,7 +53,7 @@ describe('makeAddUser', () => {
 
 	test('when email is empty then throw error', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		try {

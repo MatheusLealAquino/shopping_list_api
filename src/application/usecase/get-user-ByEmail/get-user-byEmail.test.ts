@@ -1,21 +1,29 @@
-import infrastructureUserDb from '../../../../infrastructure/user/db';
-import usersDb from '../../../../interfaces/user/data-access';
+import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
+import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
 
 import makeAddUser from '../add-user/add-user';
 import makeGetUserByEmail from './get-user-byEmail';
 
+let userRepository;
+beforeAll(async () => {
+	const connection = await mongoConnectionAdapter.makeDb();
+	userRepository = makeUserMongo({
+		db: connection,
+	});
+});
+
 beforeEach(async () => {
-	await usersDb.clearCollection();
+	await userRepository.clearCollection();
 });
 
 afterAll(async () => {
-	await infrastructureUserDb.closeDb();
+	await mongoConnectionAdapter.closeDb();
 });
 
 describe('makeGetUserByEmail', () => {
 	test('when user already created then return user', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addUser({
@@ -25,7 +33,7 @@ describe('makeGetUserByEmail', () => {
 		});
 
 		const getUser = makeGetUserByEmail({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUser = await getUser({
@@ -39,7 +47,7 @@ describe('makeGetUserByEmail', () => {
 
 	test('when dont find user then return null', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addUser({
@@ -49,7 +57,7 @@ describe('makeGetUserByEmail', () => {
 		});
 
 		const getUser = makeGetUserByEmail({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUser = await getUser({
@@ -62,7 +70,7 @@ describe('makeGetUserByEmail', () => {
 	test('when email is empty then throw error', async () => {
 		try {
 			const addUser = makeAddUser({
-				usersDb,
+				userRepository,
 			});
 
 			await addUser({
@@ -72,7 +80,7 @@ describe('makeGetUserByEmail', () => {
 			});
 
 			const getUser = makeGetUserByEmail({
-				usersDb,
+				userRepository,
 			});
 
 			await getUser({

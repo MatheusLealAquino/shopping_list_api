@@ -1,10 +1,10 @@
 import * as bcrypt from 'bcrypt';
-import makeUser from '../../../../domain/user';
+import makeUser from '../../../domain/user';
 
-const makeGetUserByEmailPassword = ({ usersDb }) => async (userInfo) => {
+const makeGetUserByEmailPassword = ({ userRepository }) => async (userInfo) => {
 	const user = makeUser(userInfo);
 
-	const foundUser = await usersDb.getByEmail({
+	const foundUser = await userRepository.getByEmail({
 		email: user.getEmail(),
 	});
 	if (!foundUser) return null;

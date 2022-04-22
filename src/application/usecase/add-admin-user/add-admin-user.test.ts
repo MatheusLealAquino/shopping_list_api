@@ -1,19 +1,27 @@
 import makeAddAdminUser from './add-admin-user';
-import infrastructureUserDb from '../../../../infrastructure/user/db';
-import usersDb from '../../../../interfaces/user/data-access';
+import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
+import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
+
+let userRepository;
+beforeAll(async () => {
+	const connection = await mongoConnectionAdapter.makeDb();
+	userRepository = makeUserMongo({
+		db: connection,
+	});
+});
 
 beforeEach(async () => {
-	await usersDb.clearCollection();
+	await userRepository.clearCollection();
 });
 
 afterAll(async () => {
-	await infrastructureUserDb.closeDb();
+	await mongoConnectionAdapter.closeDb();
 });
 
 describe('makeAddAdminUser', () => {
 	test('when receive user data then insert on database', async () => {
 		const addAdminUser = makeAddAdminUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addAdminUser({
@@ -22,13 +30,13 @@ describe('makeAddAdminUser', () => {
 			password: '12356',
 		});
 
-		expect(await usersDb.countUsers()).toBe(1);
+		expect(await userRepository.countUsers()).toBe(1);
 	});
 
 	test('when dont receive password then throw error', async () => {
 		try {
 			const addAdminUser = makeAddAdminUser({
-				usersDb,
+				userRepository,
 			});
 
 			await addAdminUser({
@@ -44,7 +52,7 @@ describe('makeAddAdminUser', () => {
 
 	test('when email is empty then throw error', async () => {
 		const addAdminUser = makeAddAdminUser({
-			usersDb,
+			userRepository,
 		});
 
 		try {

@@ -1,21 +1,29 @@
-import infrastructureUserDb from '../../../../infrastructure/user/db';
-import usersDb from '../../../../interfaces/user/data-access';
+import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
+import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
 
 import makeAddUser from '../add-user/add-user';
 import makeGetUsers from './get-users';
 
+let userRepository;
+beforeAll(async () => {
+	const connection = await mongoConnectionAdapter.makeDb();
+	userRepository = makeUserMongo({
+		db: connection,
+	});
+});
+
 beforeEach(async () => {
-	await usersDb.clearCollection();
+	await userRepository.clearCollection();
 });
 
 afterAll(async () => {
-	await infrastructureUserDb.closeDb();
+	await mongoConnectionAdapter.closeDb();
 });
 
 describe('makeGetUsers', () => {
 	test('when user already created then return user', async () => {
 		const addUser = makeAddUser({
-			usersDb,
+			userRepository,
 		});
 
 		await addUser({
@@ -25,7 +33,7 @@ describe('makeGetUsers', () => {
 		});
 
 		const getUsers = makeGetUsers({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUsers = await getUsers();
@@ -40,7 +48,7 @@ describe('makeGetUsers', () => {
 
 	test('when dont have users then return empty array', async () => {
 		const getUsers = makeGetUsers({
-			usersDb,
+			userRepository,
 		});
 
 		const foundUser = await getUsers();

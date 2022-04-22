@@ -7,10 +7,16 @@ const client = new MongoClient(url);
 let db;
 
 const makeDb = async () => {
+	console.log('initializing db...');
 	if (!db) {
-		await client.connect();
-		console.log('Connected to database', url);
-		db = client.db(dbName);
+		try {
+			await client.connect();
+			console.log('Connected to database', url);
+			db = client.db(dbName);
+		} catch (err) {
+			console.error(err);
+			throw err;
+		}
 	}
 
 	return db;
