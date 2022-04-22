@@ -1,7 +1,7 @@
 import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
 
 import makeAddUser from './add-user';
-import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
+import makeUserMongo from '../../../interfaces/data-access/user-mongo';
 
 let userRepository;
 beforeAll(async () => {

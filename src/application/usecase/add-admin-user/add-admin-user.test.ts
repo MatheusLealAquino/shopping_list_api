@@ -1,6 +1,6 @@
 import makeAddAdminUser from './add-admin-user';
 import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
-import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
+import makeUserMongo from '../../../interfaces/data-access/user-mongo';
 
 let userRepository;
 beforeAll(async () => {
