@@ -1,5 +1,5 @@
 export default interface ICategory {
-  _id: string;
+  _id?: string;
   name: string;
   icon?: string;
 }
