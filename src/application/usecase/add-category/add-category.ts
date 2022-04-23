@@ -2,14 +2,14 @@ import ICategory from '../../../domain/category/interface';
 
 import makeCategory from '../../../domain/category';
 
-const makeAddCategory = ({ categoryRepository }) => async (categoryInfo: ICategory) => {
+const makeAddCategory = ({
+	categoryRepository,
+}) => async (categoryInfo: Omit<ICategory, '_id'>) => {
 	if (!categoryInfo.icon) {
 		categoryInfo.icon = 'defaultimage.png';
 	}
 
 	const category = makeCategory(categoryInfo);
-
-	if (!category.getName()) throw new Error('Necessary to receive name');
 
 	const foundCategory = await categoryRepository.getByName({
 		name: category.getName(),
