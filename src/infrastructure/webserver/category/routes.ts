@@ -14,7 +14,6 @@ export default (connection) => {
 			method: 'GET',
 			path: '/category',
 			handler: categoryControllerWithConnection.getAllCategories,
-			config: { auth: 'adminAuth' },
 		},
 	];
 };
