@@ -1,4 +1,4 @@
-import userDataAccess from '../data-access';
+import dataAccess from '../../data-access';
 
 import addUser from '../../../application/usecase/add-user/add-user';
 import addAdminUser from '../../../application/usecase/add-admin-user/add-admin-user';
@@ -51,7 +51,7 @@ const getAllUsers = (userRepository) => (makeGetUsers({
 }));
 
 const userController = (repositoryFactory) => {
-	const userRepository = userDataAccess.userMongo(repositoryFactory);
+	const userRepository = dataAccess.userMongo(repositoryFactory);
 
 	const postUserMounted = postUser(userRepository);
 	const authenticateUserMounted = authenticateUser(userRepository);

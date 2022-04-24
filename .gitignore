@@ -1,4 +1,8 @@
 node_modules
+
 .env
-dist
 docker-compose.yml
+
+dist
+coverage
+

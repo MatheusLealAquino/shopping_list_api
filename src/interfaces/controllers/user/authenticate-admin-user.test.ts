@@ -1,4 +1,4 @@
-import userDataAccess from '../data-access';
+import userDataAccess from '../../data-access';
 import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
 
 import addUser from '../../../application/usecase/add-user/add-user';

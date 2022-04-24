@@ -1,4 +1,4 @@
-import userController from '../../../interfaces/user/controllers';
+import userController from '../../../interfaces/controllers/user';
 
 export default (connection) => {
 	const userControllerWithConnection = userController(connection);
@@ -6,33 +6,33 @@ export default (connection) => {
 	return [
 		{
 			method: 'POST',
-			path: '/users',
+			path: '/user',
 			handler: userControllerWithConnection.postUser,
 		},
 		{
 			method: 'POST',
-			path: '/users/login',
+			path: '/user/login',
 			handler: userControllerWithConnection.authenticateUser,
 		},
 		{
 			method: 'POST',
-			path: '/users/admin',
+			path: '/user/admin',
 			handler: userControllerWithConnection.postAdminUser,
 		},
 		{
 			method: 'POST',
-			path: '/users/admin/login',
+			path: '/user/admin/login',
 			handler: userControllerWithConnection.authenticateAdminUser,
 		},
 		{
 			method: 'GET',
-			path: '/users/{_id}',
+			path: '/user/{_id}',
 			handler: userControllerWithConnection.findUserById,
 			config: { auth: 'userAuth' },
 		},
 		{
 			method: 'GET',
-			path: '/users',
+			path: '/user',
 			handler: userControllerWithConnection.getAllUsers,
 			config: { auth: 'adminAuth' },
 		},
