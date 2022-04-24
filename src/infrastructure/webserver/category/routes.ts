@@ -10,5 +10,11 @@ export default (connection) => {
 			handler: categoryControllerWithConnection.postCategory,
 			config: { auth: 'adminAuth' },
 		},
+		{
+			method: 'GET',
+			path: '/category',
+			handler: categoryControllerWithConnection.getAllCategories,
+			config: { auth: 'adminAuth' },
+		},
 	];
 };
