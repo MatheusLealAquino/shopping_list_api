@@ -1,5 +1,5 @@
 import mongoConnectionAdapter from '../../../infrastructure/db/mongoConnectionAdapter';
-import makeUserMongo from '../../../interfaces/user/data-access/user-mongo';
+import makeUserMongo from '../../../interfaces/data-access/user-mongo';
 
 import makeAddUser from '../add-user/add-user';
 import makeGetUsers from './get-users';

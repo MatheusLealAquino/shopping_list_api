@@ -1,10 +1,12 @@
 import { ObjectId } from 'bson';
 
+const COLLECTION = 'user';
+
 const makeUserMongo = ({ db }) => {
 	async function insert({
 		...userInfo
 	}) {
-		const result = await db.collection('users')
+		const result = await db.collection(COLLECTION)
 			.insertOne({
 				...userInfo,
 				createdAt: new Date(),
@@ -16,7 +18,7 @@ const makeUserMongo = ({ db }) => {
 	async function getByEmail({
 		email,
 	}) {
-		return db.collection('users')
+		return db.collection(COLLECTION)
 			.findOne({
 				email,
 			});
@@ -25,26 +27,26 @@ const makeUserMongo = ({ db }) => {
 	async function getById({
 		_id,
 	}) {
-		return db.collection('users')
+		return db.collection(COLLECTION)
 			.findOne({
 				_id: new ObjectId(_id.toString()),
 			});
 	}
 
 	async function getUsers() {
-		return db.collection('users')
+		return db.collection(COLLECTION)
 			.find().toArray();
 	}
 
 	async function countUsers() {
-		return db.collection('users')
+		return db.collection(COLLECTION)
 			.find()
 			.count();
 	}
 
 	async function clearCollection() {
 		if (process.env.NODE_ENV === 'dev') {
-			return db.collection('users')
+			return db.collection(COLLECTION)
 				.deleteMany({});
 		}
 
